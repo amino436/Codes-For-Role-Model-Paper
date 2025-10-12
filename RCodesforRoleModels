@@ -66,7 +66,6 @@ bubbleplot= ggplot(TraitsQ4, aes(x = Year, y = Percent, size = Percent))+
 bubbleplot + expand_limits(y = 0)
 
 #### Q2 Graphs ####
-
 Level_order <- c("First Year (n=13)", "Second Year (n=14)", "Third Year (n=9)", "Fourth Year (n=5)")
 
 pplot = ggplot(Q2Data, aes(x = Study_Level, y = Counts, fill = Response)) +
