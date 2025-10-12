@@ -1,4 +1,4 @@
-# Run all Question Codes seperately in Rstudio. 
+# Run all Question Codes seperately in Rstudio as the names for dataframes in the .RData files may overlap. 
 
 #### Q1 Qualities and Characteristics of Role Models ####
 library(ggplot2)
