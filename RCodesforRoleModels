@@ -1,1 +1,68 @@
+# Run all Question Codes seperately in Rstudio. 
 
+#### Q1 Qualities and Characteristics of Role Models ####
+library(ggplot2)
+library(useful)
+library(dplyr)
+library(viridis)
+library(tidyverse)
+
+level_order <- c('First (n=17)', 'Second (n=14)', 'Third (n=9)', "Fourth (n=5)", "All Years (n=45)") 
+colours <- c("#0d0887","#cc4778","#ed7953")
+
+##### Bubble Plot for Qualities of Role Models by the Year #####
+bubbleplot= ggplot(Qualities, aes(x = Year, y = Percent, size = Percent))+                    #Plots year by percent with size of points by percent
+  scale_x_discrete(limits = level_order, 
+                   labels = function(level_order) stringr::str_wrap(level_order, width = 9))+ #xaxis on two lines
+  scale_radius(range = c(5, 18), guide = NULL) +                                              #makes size of points scaled between the range of 5,18, removes legend
+  geom_point(alpha=0.5, aes(colour = Qualities)) +                                            #Opacity of points and colors points by Factor, adds legend
+    scale_color_viridis(discrete=TRUE, option="C") +                                          #colour scale options from C,D, (option="H", end = 0.7)
+    guides(color = guide_legend(override.aes = list(size = 3)))+
+  geom_point(data=QualitiesOverlap, alpha=0.5, aes(color= "Identity"))+                       #Adds same colour by legend for overlapped point 
+  geom_text(data=Qualities, aes(y=Percent, label=Percent), color="black", size=3)+            #Adds text on top of point
+  theme_minimal() +
+  xlab("Year of Study")+
+  ylab("Proportion of Respondents (%)")+
+  theme(axis.text.x = element_text(colour = "black"))+
+  theme(axis.text.y = element_text(colour = "black"))
+bubbleplot 
+
+##### Bubble Plot Characteristics of Role Models by the Year #####
+bubbleplot= ggplot(Traits, aes(x = Year, y = Percent, size = Percent))+
+  scale_x_discrete(limits = level_order, 
+                   labels = function(level_order) stringr::str_wrap(level_order, width = 9))+  
+  #scale_size(range = c(6, 12), name = "Proportion of Students")+
+  scale_radius(range = c(5, 18), guide= NULL) +
+  geom_point(alpha = 0.5, aes(color = Traits))+
+    scale_color_viridis(discrete=TRUE, option = "C") + #begin= 0.32, end=0.95
+    guides(color = guide_legend(override.aes = list(size = 3)))+
+  geom_point(data=TraitsOverlap2, alpha = 0.5, aes(color= "Support"))+
+  geom_text(data=Traits, aes(y=Percent, label=Percent), color = "black", size =3.5)+
+  theme_minimal() +
+  xlab("Year of Study")+
+  ylab("Proportion of Respondents (%)")+
+  theme(plot.title = element_text(hjust = 0.5))+
+  theme(axis.text.x = element_text(colour = "black"))+
+  theme(axis.text.y = element_text(colour = "black"))
+bubbleplot
+
+##### Bubble Plot Characteristics of Role Models Described in Q1 & Q4#####
+bubbleplot= ggplot(TraitsQ4, aes(x = Year, y = Percent, size = Percent))+
+  scale_x_discrete(limits = level_order, 
+                   labels = function(level_order) stringr::str_wrap(level_order, width = 9))+  
+  #scale_size(range = c(6, 12), name = "Proportion of Students")+
+  scale_radius(limits = c(0, NA), range = c(5, 18), guide = NULL) +
+  geom_point(alpha = 0.5, aes(color = Traits))+
+  scale_color_viridis(discrete=TRUE, option = "C") + #begin= 0.32, end=0.95
+  guides(color = guide_legend(override.aes = list(size = 3)))+
+  geom_point(data=TraitsOverlapQ4, alpha = 0.4, aes(colour = Traits))+
+  geom_text(data=TraitsQ4, aes(y=Percent, label=Percent), color = "black", size =3.2)+
+  theme_minimal() +
+  xlab("Year of Study")+
+  ylab("Proportion of Respondents (%)")+
+  theme(plot.title = element_text(hjust = 0.5))+
+  theme(axis.text.x = element_text(colour = "black"))+
+  theme(axis.text.y = element_text(colour = "black"))
+bubbleplot + expand_limits(y = 0)
+
+#### Q2 Graphs ####
