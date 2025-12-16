@@ -99,7 +99,7 @@ library(useful)
 library(dplyr)
 library(viridis)
 library(tidyverse)
-level_order <- c('First Year (n=12)', 'Second Year (n=13)', 'Third Year (n=9)', "Fourth Year (n=4)")
+level_order <- c('First (n=12)', 'Second (n=13)', 'Third (n=9)', "Fourth (n=4)")
 
 # Copy Old dataframe to New DataFrame.
 newDF <- Graph_Q2_Q3
@@ -126,5 +126,36 @@ Q3plot #run the code above first then highlight and run the code below
 Q3plot + theme(panel.border = element_blank(), panel.grid.major = element_blank(),
                   panel.grid.minor = element_blank(), axis.line = element_line(colour = "grey"))
 
-#### Q4/5 Graphs ####
+#### Q4 Graphs ####
+#### Figure 5A: Classification of personal and distant role models ####
+
+### Figure 5B: Perception of Instructors as Personal or Distant Role models ####
+library(tidyr)
+library(dplyr)
+library(ggplot2)
+
+university_level <- c("First (n=7)", "Second (n=8)", "Third (n=4)", "Fourth (n=4)")
+personal_role_model <- c(4, 0, 0, 4)
+distant_role_model <- c(3, 8, 4, 0)
+
+data <- data.frame(Level = university_level, Personal = personal_role_model, Distant = distant_role_model)
+
+data_long <- data %>%
+pivot_longer(cols = c(Personal, Distant), names_to = "Model", values_to = "Count")
+
+data_long <- data_long %>%
+group_by(Level) %>%
+mutate(Proportion = Count / sum(Count))
+
+ggplot(data_long, aes(x = Level, y = Proportion, fill = Model)) +
+geom_bar(stat = "identity") +
+scale_fill_viridis_d(option = "plasma") +
+scale_y_continuous(labels = function(x) paste0(format(x * 100, nsmall = 0), "")) +
+scale_x_discrete(limits = university_level, labels = function(university_level) stringr::str_wrap(university_level, width = 15)) +
+labs(title = "Proportion of How Students View Instructors as Role Models by Year of Study", x = "Year of Study", y = "Proportion of Respondents (%)", fill = "Types of Role Models") +
+theme_minimal() +
+theme(panel.border = element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.line = element_line(colour = "grey"), legend.text = element_text(size = 12), legend.title  = element_text(size = 12), axis.title.x = element_text(size = 12), axis.title.y = element_text(size = 12))
+
+#### Q6 Graphs ####
+
 
