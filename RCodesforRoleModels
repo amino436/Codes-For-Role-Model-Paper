@@ -66,6 +66,11 @@ bubbleplot= ggplot(TraitsQ4, aes(x = Year, y = Percent, size = Percent))+
 bubbleplot + expand_limits(y = 0)
 
 #### Q2 Graphs ####
+library(ggplot2)
+library(useful)
+library(dplyr)
+library(viridis)
+library(tidyverse)
 Level_order <- c("First Year (n=13)", "Second Year (n=14)", "Third Year (n=9)", "Fourth Year (n=5)")
 
 pplot = ggplot(Q2Data, aes(x = Study_Level, y = Counts, fill = Response)) +
@@ -89,3 +94,37 @@ pplot + theme(panel.border = element_blank(), panel.grid.major = element_blank()
              panel.grid.minor = element_blank(), axis.line = element_line(colour = "grey"))
  
 #### Q3 Graphs ####
+library(ggplot2)
+library(useful)
+library(dplyr)
+library(viridis)
+library(tidyverse)
+level_order <- c('First Year (n=12)', 'Second Year (n=13)', 'Third Year (n=9)', "Fourth Year (n=4)")
+
+# Copy Old dataframe to New DataFrame.
+newDF <- Graph_Q2_Q3
+
+# Change the order of Response column of DataFrame
+newDF$Response <- factor(newDF$Response,
+                         levels = c("Presence of Role Model was Beneficial",
+                                    "Lack of Role Model was Deleterious",
+                                    "Mentioned Both"))
+
+Q3plot<- ggplot(newDF, aes(x = Study_Level, y = Proportion, fill =  Response)) +
+  scale_x_discrete(limits = level_order, labels = function(level_order) stringr::str_wrap(level_order, width = 9))+
+  labs(title = NULL,
+       x = "Year of Study",
+       y = "Proportion of Respondents (%)",
+       fill = "Response") +
+  geom_bar(stat = "identity")+
+  scale_fill_viridis_d(option = "plasma")+
+  theme_minimal()+
+  theme(axis.text.x = element_text(colour = "black"))+
+  theme(axis.text.y = element_text(colour = "black"))
+Q3plot #run the code above first then highlight and run the code below
+
+Q3plot + theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+                  panel.grid.minor = element_blank(), axis.line = element_line(colour = "grey"))
+
+#### Q4/5 Graphs ####
+
