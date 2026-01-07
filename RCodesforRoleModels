@@ -157,5 +157,39 @@ theme_minimal() +
 theme(panel.border = element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank(), axis.line = element_line(colour = "grey"), legend.text = element_text(size = 12), legend.title  = element_text(size = 12), axis.title.x = element_text(size = 12), axis.title.y = element_text(size = 12))
 
 #### Q6 Graphs ####
+library(ggplot2)
+library(useful)
+library(dplyr)
+library(viridis)
+library(tidyverse)
+
+DSBG <- data.frame(RoleModels = c("Family", "Family", "School Teacher", "School Teacher", "Instructors", "Instructors", "Public Figures", "Public Figures", "Peers", "Peers"),
+                    PP = c("Persistence", "Pursuit", "Persistence", "Pursuit", "Persistence", "Pursuit", "Persistence", "Pursuit", "Persistence", "Pursuit"),
+                    Percentage = c(25,-49,0,-43,42,0,8,-9,25,0))
+
+category_order <- c("Family", "Instructors","School Teacher", "Peers", "Public Figures") 
+
+pplot = ggplot(DSBG, aes(x = RoleModels, y = Percentage, fill = PP)) +
+  geom_bar(stat = "identity", width = 0.75) +
+  coord_flip() +
+  scale_x_discrete(limits = category_order) +
+  # another trick!
+  scale_y_continuous(breaks = seq(-100, 100, 20), 
+                     labels = abs(seq(-100, 100, 20))) +
+  scale_x_discrete(limits = category_order, labels = function(category_order)stringr::str_wrap(category_order, width = 15))+
+  scale_fill_viridis(name=NULL, discrete=TRUE, alpha=1, option="C", 
+                     breaks=c("Pursuit", "Persistence"),
+                     labels=c("Pursuit", "Persistence"))+
+  theme(legend.position = "bottom",
+        legend.title = element_blank(),
+        plot.title = element_text(hjust = 0.5))+
+  theme_minimal() +
+  #ggtitle("Role Model Distribution")+
+  ylab("Proportion of Respondents (%)")+
+  xlab("Categories")
+pplot
+pplot + theme(panel.border = element_blank(), panel.grid.major = element_blank(),
+              panel.grid.minor = element_blank(), axis.line = element_line(colour = "grey"))
+
 
 
